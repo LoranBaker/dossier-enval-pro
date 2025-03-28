@@ -1,0 +1,336 @@
+<!-- src/app/features/dossier/dossier.component.html -->
+<div class="dossier-container">
+    <header class="dossier-header">
+      <div class="logo">ENVALPRO</div>
+      <h1 class="title">GEBÄUDEANALYSE DER {{building.address | uppercase}}</h1>
+      <h2 class="subtitle">ENERGIEEFFIZIENZ – FÖRDERUNG - POTENTIAL</h2>
+    </header>
+  
+    <div class="tabs" [class.scrolled]="scrolled">
+      <button [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">Übersicht</button>
+      <button [class.active]="activeTab === 'buildingData'" (click)="setActiveTab('buildingData')">Gebäudedaten</button>
+      <button [class.active]="activeTab === 'consumption'" (click)="setActiveTab('consumption')">Verbrauch & ESG</button>
+      <button [class.active]="activeTab === 'analysis'" (click)="setActiveTab('analysis')">Bestandsanalyse</button>
+      <button [class.active]="activeTab === 'renovation'" (click)="setActiveTab('renovation')">Sanierungsmaßnahmen</button>
+      <button [class.active]="activeTab === 'timeline'" (click)="setActiveTab('timeline')">iSFP-Fahrplan</button>
+    </div>
+  
+    <!-- Overview Tab -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'overview'">
+      <div class="overview-section">
+        <h2>Zustand Wohnhäuser in Deutschland</h2>
+        
+        <div class="stats-circles">
+          <div class="stat-circle">
+            <div class="circle-value">70%</div>
+            <div class="circle-label">der Wohngebäude werden noch mit Gas beheizt</div>
+          </div>
+          <div class="stat-circle">
+            <div class="circle-value">40%</div>
+            <div class="circle-label">der Wohngebäude haben eine schlechtere Energieeffizienzklasse als C</div>
+          </div>
+          <div class="stat-circle">
+            <div class="circle-value">>60%</div>
+            <div class="circle-label">der Wohngebäude sind nicht EU-Konform (1.5° Road to Paris)</div>
+          </div>
+        </div>
+  
+        <div class="two-columns">
+          <div class="column">
+            <h3>Warum überhaupt Sanieren?</h3>
+            <p>
+              Eine energetische Sanierung optimiert die Energieeffizienz eines Gebäudes durch gezielte bauliche
+              Maßnahmen, was zu spürbaren Kosteneinsparungen bei Heizung, Warmwasseraufbereitung und Belüftung führt.
+              Dies ist besonders relevant vor dem Hintergrund steigender Energiepreise.
+            </p>
+            <p>
+              Gleichzeitig trägt die Sanierung zur Reduzierung des CO2-Ausstoßes bei und fördert den Einsatz
+              erneuerbarer Energien, was einen wertvollen Beitrag zur Umweltschonung darstellt.
+            </p>
+          </div>
+          <div class="column">
+            <h3>Was die Modernisierung bringt?</h3>
+            <ul class="benefits-list">
+              <li>Wohnwerterhöhung</li>
+              <li>Verbesserte Wohnqualität</li>
+              <li>Niedrigere Energie- & CO2-Kosten</li>
+              <li>Wertsteigerung und Rentabilität</li>
+              <li>Langfristige Mieterbindung</li>
+              <li>Vermeidung von Wertverlust</li>
+              <li>Versorgungssicherheit eigener Strom</li>
+              <li>Unabhängigkeit durch Wärmepumpen</li>
+            </ul>
+          </div>
+        </div>
+  
+        <div class="benefits-icons">
+          <div class="benefit-icon">
+            <div class="icon">📈</div>
+            <div class="benefit-text">Bis zu 31% Wertsteigerung</div>
+          </div>
+          <div class="benefit-icon">
+            <div class="icon">🏛️</div>
+            <div class="benefit-text">Bis zu 70% Förderung</div>
+          </div>
+          <div class="benefit-icon">
+            <div class="icon">🏠</div>
+            <div class="benefit-text">Höhere Mieteinnahmen</div>
+          </div>
+          <div class="benefit-icon">
+            <div class="icon">💰</div>
+            <div class="benefit-text">Höherer Wiederverkauf</div>
+          </div>
+        </div>
+  
+        <div class="envalpro-promise">
+          <p>
+            Envalpro hilft Vermietern die Mieteinnahmen und den Wert der Immobilie durch energetische Maßnahmen
+            zu steigern und die Fördermittel maximal zu nutzen, die Immobilie in die Zukunft zu führen- und das als
+            One-Stop-Shop
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Building Data Tab -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'buildingData'">
+      <app-building-data></app-building-data>
+    </div>
+  
+    <!-- Consumption Tab - This would be replaced with a proper component -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'consumption'">
+      <div class="consumption-section">
+        <h2>Ihre aktuellen Verbräuche und allgemeine Daten</h2>
+  
+        <div class="consumption-data">
+          <table class="data-table">
+            <tr class="table-header">
+              <th colspan="2">AKTUELLE DATEN UND VERBRAUCH</th>
+            </tr>
+            <tr>
+              <td>Heizung in kWh* ca.</td>
+              <td>{{consumptionData.heating | number}}</td>
+            </tr>
+            <tr>
+              <td>Warmwasser in kWh* ca.</td>
+              <td>{{consumptionData.warmWater | number}}</td>
+            </tr>
+            <tr>
+              <td>Strom in kWh* ca.</td>
+              <td>{{consumptionData.electricity | number}}</td>
+            </tr>
+            <tr>
+              <td>Energie in kWh total* ca.</td>
+              <td>{{consumptionData.totalEnergy | number}}</td>
+            </tr>
+            <tr>
+              <td>Mietpreis in € pro m²</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Marktpreis in € pro m² ca.</td>
+              <td>1.500</td>
+            </tr>
+            <tr>
+              <td>Energiekosten in €* ca.</td>
+              <td>{{consumptionData.energyCosts | number}}</td>
+            </tr>
+            <tr>
+              <td>C02-Emissionen in kg ca.</td>
+              <td>{{consumptionData.co2Emissions | number}}</td>
+            </tr>
+            <tr>
+              <td>Stranded Asset**</td>
+              <td><span class="alert">ja</span></td>
+            </tr>
+          </table>
+          <p class="footnote">*Geschätzte Werte, da keine Angaben</p>
+          <p class="footnote">**Stranded Asset heisst das Ihre Immobilie nicht den Vorgaben der EU /CRREM entspricht und Wertverlust droht!</p>
+        </div>
+  
+        <!-- Rest of consumption tab content -->
+        <!-- This would be replaced with a proper component -->
+      </div>
+    </div>
+  
+    <!-- Analysis Tab -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'analysis'">
+      <div class="analysis-section">
+        <h2>Analyse der Bestandssituation</h2>
+        
+        <div class="analysis-items">
+          <div class="analysis-item">
+            <h3>Heizung</h3>
+            <p>Die Heizungsanlage ist (teilweise) veraltet und weist einen niedrigen Wirkungsgrad auf. Sie verursacht eine hohe CO2-Emission, da sie mit fossilen Brennstoffen betrieben wird.</p>
+          </div>
+          
+          <div class="analysis-item">
+            <h3>Dach</h3>
+            <p>Ein schlecht gedämmtes Dach führt zu hohem Wärmeverlust im Winter und erhöhtem Wärmegewinn im Sommer, was zu höheren Heiz- und Kühlkosten führt und den Komfort im Gebäude beeinträchtigt.</p>
+          </div>
+          
+          <div class="analysis-item">
+            <h3>Kellerdecke</h3>
+            <p>Eine nicht gedämmte Kellerdecke oder Kellerboden verursacht Wärmeverluste an den unbeheizten Kellerbereich oder an das Erdreich darunter und führt zu unangenehmer Fußkälte, was den Wohnkomfort beeinträchtigt und den Energieverbrauch erhöht.</p>
+          </div>
+          
+          <div class="analysis-item">
+            <h3>Fassade</h3>
+            <p>Eine nicht gedämmte Außenfassade verursacht im Winter einen hohen Wärmeverlust und erhöht im Sommer den Wärmegewinn im Gebäude, was zu höheren Heiz- und Kühlkosten führt.</p>
+          </div>
+          
+          <div class="analysis-item">
+            <h3>Fenster</h3>
+            <p>Eine schlechte Verglasung führt zu hohem Wärmeverlust, während undichte Abdichtungen Zugluft verursachen, was zu einem ineffizienten Raumklima und einem erhöhten Energieverbrauch führt.</p>
+          </div>
+          
+          <div class="analysis-item">
+            <h3>Türen</h3>
+            <p>Eine schlechte Außentür führt zu hohem Wärmeverlust, während undichte Abdichtungen Zugluft verursachen, was zu einem ineffizienten Raumklima und einem erhöhten Energieverbrauch führt.</p>
+          </div>
+        </div>
+        
+        <div class="modernization-chart">
+          <h3>MODERNISIERUNG BESSER JETZT ALS SPÄTER!</h3>
+          
+          <!-- Chart Legend -->
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-color heute"></div>
+              <span>Heute</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color in-10-jahren"></div>
+              <span>In 10 Jahren</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color mehrkosten"></div>
+              <span>Mehrkosten in 10 Jahren</span>
+            </div>
+          </div>
+          
+          <!-- D3 Chart Container -->
+          <div class="d3-chart-container" #chartContainer></div>
+          
+          <!-- Red Callout Box -->
+          <div class="cost-callout">
+            <div class="callout-arrow"></div>
+            <div class="callout-content">
+              <div class="callout-amount">{{modernizationCosts.additionalCosts | currency:'EUR':'symbol':'1.0-0'}}*</div>
+              <div class="callout-text">
+                <p>Würden Sie in 10 Jahren unnötigerweise mehr zahlen (5% Kostensteigerung p.a.)!</p>
+                <p class="callout-note">* ohne Wertverlust Ihrer Immobilie</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Renovation Measures Tab - This would be replaced with a proper component -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'renovation'">
+      <div class="renovation-section">
+        <h2>Übersicht Sanierungsmaßnahmen</h2>
+        
+        <table class="renovation-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Status</th>
+              <th>Beschreibung</th>
+              <th>Kosten</th>
+              <th>Förderungen</th>
+              <th>Einsparungen p.a.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let measure of renovationMeasures">
+              <td class="measure-type">{{measure.type}}</td>
+              <td>
+                <div class="status">
+                  <div>vorher</div>
+                  <div>nachher</div>
+                </div>
+              </td>
+              <td>
+                <div class="description">
+                  <div *ngIf="measure.type === 'Photovoltaik'">Keine Photovoltaik</div>
+                  <div *ngIf="measure.type === 'Dach'">Dach nicht gedämmt</div>
+                  <div *ngIf="measure.type === 'Fenster & Türen'">2-fach-Verglasung</div>
+                  <div *ngIf="measure.type === 'Lüftung'">manuelle Lüftung</div>
+                  <div *ngIf="measure.type === 'Heizung'">Gas, Bj. 1994</div>
+                  <div *ngIf="measure.type === 'Keller'">Keller nicht gedämmt</div>
+                  <div *ngIf="measure.type === 'Fassade'">keine zusätzl. Dämmung</div>
+                  <div>{{measure.description}}</div>
+                </div>
+              </td>
+              <td>{{measure.cost | currency:'EUR':'symbol':'1.0-0'}}</td>
+              <td>{{measure.funding | currency:'EUR':'symbol':'1.0-0'}}</td>
+              <td>ca. {{measure.savings | currency:'EUR':'symbol':'1.0-0'}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">Summe</td>
+              <td>ca. {{totalCosts | currency:'EUR':'symbol':'1.0-0'}}</td>
+              <td>ca. {{totalFunding | currency:'EUR':'symbol':'1.0-0'}}</td>
+              <td>ca. {{totalSavings | currency:'EUR':'symbol':'1.0-0'}}</td>
+            </tr>
+          </tfoot>
+        </table>
+        
+        <div class="savings-potential">
+          <h3>Hohes Einsparpotenzial und niedrigere Steuerbelastung</h3>
+          <ul>
+            <li>{{savingsPotential.energyCostSavings}}% Einsparpotenzial Ihrer Energiekosten</li>
+            <li>{{savingsPotential.energyBalanceSavings}}% Einsparpotenzial Ihrer Energiebilanz</li>
+            <li>{{savingsPotential.co2TaxSavings}}% Einsparpotenzial Ihrer C02-Steuer</li>
+            <li>7 Maßnahmen In {{savingsPotential.amortizationYears}} Jahren amortisiert!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Timeline Tab - This would be replaced with a proper component -->
+    <div class="tab-content" [@tabAnimation] *ngIf="activeTab === 'timeline'">
+      <div class="timeline-section">
+        <h2>Ihre Sanierungswünsche und iSFP-Fahrplan für 5 Jahre</h2>
+        
+        <div class="timeline">
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th *ngFor="let plan of renovationPlan">{{plan.year}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let measure of ['Heizung', 'Photovoltaik', 'Schrägdach', 'Fenster & Türen', 'Dämmung Fassade', 'Dämmung Kellerdecke', 'Lüftungsanlage']">
+                <td *ngFor="let plan of renovationPlan" [class.active]="plan.measures.includes(measure)">
+                  <div *ngIf="plan.measures.includes(measure)" class="measure-box">
+                    <div class="measure-name">{{measure}}</div>
+                    <div class="measure-cost">Kosten<br>{{getMeasureCost(measure) | currency:'EUR':'symbol':'1.0-0'}}</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td *ngFor="let plan of renovationPlan">
+                  <div class="investment">Investition: {{plan.investment | currency:'EUR':'symbol':'1.0-0'}}</div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <p class="timeline-note">
+          Bei einer Überschreitung der förderfähigen Kosten durch mehrere Maßnahmen an der Gebäudehülle empfiehlt es sich, die Maßnahmen auf mehrere Jahre zu verteilen. PV wird nicht gefördert, hat jedoch höchste Kostenersparnisse!
+        </p>
+      </div>
+    </div>
+  
+    <footer class="dossier-footer">
+      <div class="footer-logo">ENVALPRO</div>
+      <div class="footer-website">www.envalpro-impact.com</div>
+    </footer>
+  </div>

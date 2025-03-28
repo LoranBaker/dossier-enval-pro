@@ -1,0 +1,94 @@
+<!-- src/app/shared/components/data-table/data-table.component.html -->
+<div class="data-table-container" [class.responsive]="config.responsive">
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <table [ngClass]="config.tableClass">
+      <thead *ngIf="config.showHeader">
+        <tr [ngClass]="config.headerClass">
+          <th *ngFor="let column of columns" 
+              [ngStyle]="{'width': column.width}" 
+              [ngClass]="{'sortable': config.sortable && column.sortable}"
+              (click)="column.sortable && sortBy(column)">
+            {{ column.header }}
+            <span *ngIf="config.sortable && column.sortable" class="sort-icon">
+              <span *ngIf="isSortedBy(column.key)" class="sort-direction">
+                {{ getSortIcon(column.key) }}
+              </span>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="data.length > 0; else noData">
+          <tr *ngFor="let row of data; let rowIndex = index; trackBy: trackByFn" 
+              [ngClass]="config.rowClass"
+              (click)="handleRowClick(row)">
+            <td *ngFor="let column of columns" [ngClass]="config.cellClass" (click)="handleCellClick(row, column, getNestedProperty(row, column.key))">
+              <!-- Use provided template if available -->
+              <ng-container *ngIf="column.cellTemplate && !config.editMode">
+                <ng-container *ngTemplateOutlet="column.cellTemplate; context: { $implicit: row, column: column, index: rowIndex }"></ng-container>
+              </ng-container>
+              
+              <!-- Display/edit mode switching -->
+              <ng-container *ngIf="!column.cellTemplate">
+                <!-- Display mode -->
+                <ng-container *ngIf="!config.editMode || !column.editable">
+                  <ng-container [ngSwitch]="column.type">
+                    <span *ngSwitchCase="'boolean'" class="boolean-value">
+                      {{ getNestedProperty(row, column.key) ? 'Ja' : 'Nein' }}
+                    </span>
+                    <span *ngSwitchDefault>{{ getNestedProperty(row, column.key) }}</span>
+                  </ng-container>
+                </ng-container>
+                
+                <!-- Edit mode -->
+                <ng-container *ngIf="config.editMode && column.editable">
+                  <ng-container [ngSwitch]="column.type">
+                    <input *ngSwitchCase="'text'" 
+                           type="text" 
+                           [value]="getNestedProperty(row, column.key)"
+                           (input)="handleInputChange($event, row, column)"
+                           class="edit-input">
+                           
+                    <input *ngSwitchCase="'number'" 
+                           type="number" 
+                           [value]="getNestedProperty(row, column.key)"
+                           (input)="handleNumberInputChange($event, row, column)"
+                           class="edit-input">
+                           
+                    <label *ngSwitchCase="'boolean'" class="toggle-switch">
+                      <input type="checkbox" 
+                             [checked]="getNestedProperty(row, column.key)"
+                             (change)="handleCheckboxChange($event, row, column)">
+                      <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <select *ngSwitchCase="'select'"
+                            [value]="getNestedProperty(row, column.key)"
+                            (change)="handleSelectChange($event, row, column)"
+                            class="edit-input">
+                      <option *ngFor="let option of column.options" [value]="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                    
+                    <span *ngSwitchDefault>{{ getNestedProperty(row, column.key) }}</span>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+        
+        <ng-template #noData>
+          <tr>
+            <td [attr.colspan]="columns.length" class="empty-message">
+              {{ config.emptyMessage }}
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
